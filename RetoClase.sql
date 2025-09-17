@@ -70,4 +70,4 @@ describe cliente
 
 drop table pedido;
 drop table cliente;
-
+drop table usuario;
