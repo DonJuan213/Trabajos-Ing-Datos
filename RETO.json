@@ -1,0 +1,77 @@
+db.bandas.insertMany([
+  {
+    nombre:"banda1",
+    ciudad:"bogota",
+    miembros:["ana","bruno","carlos"],
+    album:[
+      {tituloAlbum:"primer disco",
+        año:2018,
+        ventas:15000,
+        calificacion:4.5
+      },
+      {tituloAlbum:"segundo disco",
+        año:2020,
+        ventas:25000,
+        calificacion:4.8
+      }
+    ]
+  },
+  {
+    nombre:"banda2",
+    ciudad:"medellin",
+    miembros: ["diana","edgar","felipe"],
+    album:[
+      {tituloAlbum:"debut",
+        año:2015,
+        ventas:12000,
+        calificacion:4.2
+      },
+      {tituloAlbum:"renacer",
+        año:2019,
+        ventas:30000,
+        calificacion:4.9
+      }
+    ]
+  },
+  {
+    nombre:"banda3",
+    ciudad:"cali",
+    miembros:["gabriela","hector","isabel"],
+    album:[
+      {tituloAlbum:"inicios",
+        año:2010,
+        ventas:8000,
+        calificacion:3.9
+      },
+      {tituloAlbum:"evolución",
+        año:2022,
+        ventas:40000,
+        calificacion:4.7
+      }
+    ]
+  }
+])
+RETO2
+db.bandas.aggregate([
+  {$unwind:"$album"},
+  {$group:{_id:"$nombre",cantidad_albumes:{$sum: 1}}},
+  {$sort:{cantidad_albumes:-1}}
+])
+
+
+RETO3
+db.bandas.aggregate([
+  {$unwind:"$album"},
+  {$sort:{"album.ventas":-1}},
+  {$limit:2},
+  {$project:{nombre:1,"album.tituloAlbum":1,"album.ventas":1}}
+])
+
+RETO4
+db.bandas.aggregate([
+  {$unwind:"$album"},
+  {$group:{_id:"$ciudad",promedio_calificacion:{$avg:"$album.calificacion"}}},
+  {$sort:{promedio_calificacion:-1}}
+])
+
+
